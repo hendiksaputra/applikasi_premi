@@ -15,15 +15,11 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('project_id')->unsigned();
             $table->string('nik', 10);
-            $table->string('employee_name', 100);       
+            $table->string('name', 100);
+            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('department_id');
             $table->timestamps();
-        });
-
-        Schema::table('employees', function (Blueprint $table) {   
-            $table->foreign('project_id')->references('id')->on('projects')
-            ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
