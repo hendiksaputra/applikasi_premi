@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Project extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function project()
+    public function employees()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasMany(Employee::class);
     }
 }

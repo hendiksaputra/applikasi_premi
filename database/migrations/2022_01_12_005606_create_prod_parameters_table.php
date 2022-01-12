@@ -15,21 +15,15 @@ class CreateProdParametersTable extends Migration
     {
         Schema::create('prod_parameters', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('project_id')->unsigned();
+            $table->unsignedBigInteger('project_id');
             $table->date('date');
             $table->double('plan_fuel_factor');
             $table->double('cum_prod_ob');
             $table->double('cum_prod_coal');
             $table->double('cum_fuel');
-            $table->double('join_survey');        
+            $table->double('join_survey'); 
             $table->timestamps();
         });
-        
-        Schema::table('prod_parameters', function (Blueprint $table) {   
-            $table->foreign('project_id')->references('id')->on('projects')
-            ->onDelete('cascade')->onUpdate('cascade');  
-        });
-
     }
 
     /**
@@ -41,6 +35,4 @@ class CreateProdParametersTable extends Migration
     {
         Schema::dropIfExists('prod_parameters');
     }
-
-
 }
