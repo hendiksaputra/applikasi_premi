@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ProjectImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectController extends Controller
 {
@@ -65,5 +67,22 @@ class ProjectController extends Controller
         DB::table('projects')->where('id', $id)->delete();
         return redirect('projects')->with('status', 'Project deleted successfully');
     }
+
+    public function import()
+    {
+        return view('project.import',
+        [
+            'title' => 'Projects',
+            'subtitle' => 'Import Project'
+        ]);
+    }
+
+    public function importProcess()
+    {
+        Excel::import(new ProjectImport, request()->file('file'));
+
+        return redirect('projects')->with('status', 'Project uploaded successfully');
+    }
+
     
 }

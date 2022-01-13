@@ -15,7 +15,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-building"></i></li>
+            <li class="active"><i class="fa fa-truck"></i></li>
           </ol>
         </div>
       </div>
@@ -33,7 +33,7 @@
             <strong>{{ $subtitle }}</strong>
           </div>
           <div class="pull-right">
-            <a href="{{ url('projects') }}" class="btn btn-success btn-sm">
+            <a href="{{ url('units') }}" class="btn btn-success btn-sm">
               <i class="fa fa-undo"></i> Back
             </a>
           </div>
@@ -41,26 +41,14 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-4 offset-md-4">
-              <form action="{{ url('projects') }}" method="post">
+              <form action="{{ url('units/importProcess') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                  <label for="">Project Code</label>
-                  <input type="text" name="code" class="form-control @error('code') is-invalid @enderror"
-                    value="{{ old('code') }}" autofocus>
-                  @error('code')
-                    <div class="text-danger">{{ $message }}</div>
-                  @enderror
+                <div class="input-group mb-3">
+                  <input type="file" name="file" class="form-control" placeholder="Unit Data" aria-label="Unit Data"
+                    aria-describedby="button-addon2">
+                  <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa fa-upload"></i>
+                    Import</button>
                 </div>
-                <div class="form-group">
-                  <label for="">Project Name</label>
-                  <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                    value="{{ old('name') }}" autofocus>
-                  @error('name')
-                    <div class="text-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-                <button type="submit" class="btn btn-success">Save
-                </button>
               </form>
             </div>
           </div>

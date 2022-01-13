@@ -25,6 +25,8 @@ Route::get('home', function () {
     return view('home');
 });
 
+Route::get('projects/import', [ProjectController::class, 'import']);
+Route::post('projects/importProcess', [ProjectController::class, 'importProcess']);
 Route::get('projects', [ProjectController::class, 'index']);
 Route::get('projects/add', [ProjectController::class, 'add']);
 Route::post('projects', [ProjectController::class, 'addProcess']);
@@ -40,4 +42,7 @@ Route::get('unit_models/export', [UnitModelController::class, 'export'])->name('
 Route::post('unit_models/importProcess', [UnitModelController::class, 'importProcess']);
 Route::resource('unit_models', UnitModelController::class);
 
-Route::resource('unit', UnitController::class);
+Route::get('units/data', [UnitController::class, 'index_data'])->name('units.index.data');
+Route::get('units/import', [UnitController::class, 'import']);
+Route::post('units/importProcess', [UnitController::class, 'importProcess']);
+Route::resource('units', UnitController::class);

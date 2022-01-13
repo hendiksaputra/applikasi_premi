@@ -15,7 +15,6 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-
             <li class="active"><i class="fa fa-building"></i></li>
           </ol>
         </div>
@@ -42,6 +41,9 @@
           <div class="pull-right">
             <a href="{{ url('projects/add') }}" class="btn btn-success btn-sm">
               <i class="fa fa-plus"></i> Add
+            </a>
+            <a href="{{ url('projects/import') }}" class="btn btn-primary btn-sm">
+              <i class="fa fa-upload"></i> Import
             </a>
           </div>
         </div>

@@ -15,7 +15,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-th-large"></i></li>
+            <li class="active"><i class="fa fa-truck"></i></li>
           </ol>
         </div>
       </div>
@@ -26,47 +26,53 @@
 @section('content')
   <div class="content mt-3">
     <div class="animated fadeIn">
-
       @if (session('status'))
         <div class="alert alert-success">
           {{ session('status') }}
         </div>
       @endif
-
       <div class="card">
         <div class="card-header">
           <div class="pull-left">
             <strong>{{ $subtitle }}</strong>
           </div>
           <div class="pull-right">
-            <a href="{{ url('unit_models/create') }}" class="btn btn-success btn-sm">
+            <a href="{{ url('units/create') }}" class="btn btn-success btn-sm">
               <i class="fa fa-plus"></i> Add
             </a>
-            <a href="{{ url('unit_models/import') }}" class="btn btn-primary btn-sm">
+            <a href="{{ url('units/import') }}" class="btn btn-primary btn-sm">
               <i class="fa fa-upload"></i> Import
             </a>
-            <a href="{{ route('export') }}" class="btn btn-warning btn-sm"><i class="fa fa-download"></i> Export</a>
           </div>
         </div>
         <div class="card-body table-responsive">
-          <table id="unitmodel-table" class="table table-striped table-bordered">
+          <table id="units-table" class="table table-striped table-bordered" width=100%>
             <thead>
               <tr>
-                <th>No</th>
-                <th>Model Name</th>
-                <th class="text-center">Action</th>
+                <th width="5%">No</th>
+                <th>Unit No.</th>
+                <th>Unit Description</th>
+                <th>Unit Model</th>
+                <th>Project</th>
+                <th width="15%" class="text-center">Action</th>
               </tr>
             </thead>
             {{-- <tbody>
-              @foreach ($unitModels as $item)
+              @foreach ($units as $item)
                 <tr>
                   <td>{{ $loop->iteration }}</td>
-                  <td>{{ $item->model_no }}</td>
+                  <td>{{ $item->unit_no }}</td>
+                  <td>{{ $item->unit_desc }}</td>
+                  <td>{{ $item->unit_model->model_no }}</td>
+                  <td>{{ $item->project->code }}</td>
                   <td class="text-center">
-                    <a href="{{ url('unit_models/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
+                    <a href="{{ url('units/' . $item->id) }}" class="btn btn-warning btn-sm">
+                      <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="{{ url('units/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
                       <i class="fa fa-pencil"></i>
                     </a>
-                    <form action="{{ url('unit_models/' . $item->id) }}" method="post"
+                    <form action="{{ url('units/' . $item->id) }}" method="post"
                       onsubmit="return confirm('Are you sure want to delete this data?')" class="d-inline">
                       @method('delete')
                       @csrf
@@ -87,17 +93,27 @@
   <script src="{{ asset('style/assets/js/lib/data-table/datatables.min.js') }}"></script>
   <script>
     $(function() {
-      $("#unitmodel-table").DataTable({
+      $("#units-table").DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{{ route('unit_models.index.data') }}',
+        ajax: '{{ route('units.index.data') }}',
         columns: [{
             data: 'DT_RowIndex',
             orderable: false,
             searchable: false
           },
           {
+            data: 'unit_no'
+          },
+          {
+            data: 'unit_desc'
+          },
+          {
             data: 'model_no'
+          },
+          {
+            data: 'code',
+            className: 'text-center'
           },
           {
             data: 'action',

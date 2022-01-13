@@ -2,20 +2,21 @@
 
 namespace App\Imports;
 
-use App\Models\UnitModel;
+use App\Models\Project;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class UnitModelsImport implements ToModel
+class ProjectImport implements ToModel
 {
     /**
     * @param Collection $collection
     */
     public function model(array $row)
     {
-        return new UnitModel([
+        return new Project([
             'id' => $row[0],
-            'model_no' => $row[1]
+            'code' => $row[1],
+            'name' => $row[2]
         ]);
     }
 }
