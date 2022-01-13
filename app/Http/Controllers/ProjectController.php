@@ -9,50 +9,53 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = DB::table('projects')->get();
+        $title = 'Project';
+        $subtitle = 'Project Data';
+        $projects = DB::table('projects')->orderBy('code', 'asc')->get();
         //return view('project.index', ['projects' => $projects]);
-        return view('project.index', compact('projects'));
+        return view('project.index', compact('title','subtitle','projects'));
     }
 
     public function add()
     {
-        return view('project.add');
+        $title = 'Project';
+        $subtitle = 'Add Project';
+        return view('project.add', compact('title','subtitle'));
     }
 
     public function addProcess(Request $request)
     {
         $request->validate([
-            'code_project' => 'required|min:1',
-            'name_project' => 'required',
+            'code' => 'required|min:1',
+            'name' => 'required',
         ]);
 
         DB::table('projects')->insert([
-            'code_project' => $request->code_project,
-            'name_project' => $request->name_project
+            'code' => $request->code,
+            'name' => $request->name
         ]);
         return redirect('projects')->with('status', 'Project added successfully');
     }
 
     public function edit($id)
     {
-        
+        $title = 'Project';
+        $subtitle = 'Edit Project';
         $project = DB::table('projects')->where('id', $id)->first();
-        return view('project/edit', compact('project'));
+        return view('project/edit', compact('title','subtitle','project'));
     }
 
     public function editProcess(Request $request, $id)
     {
-
         $request->validate([
-            'code_project' => 'required|min:1',
-            'name_project' => 'required',
+            'code' => 'required|min:1',
+            'name' => 'required',
         ]);
-
 
         DB::table('projects')->where('id', $id)
         ->update([
-            'code_project' => $request->code_project,
-            'name_project' => $request->name_project
+            'code' => $request->code,
+            'name' => $request->name
         ]);
         return redirect('projects')->with('status', 'Project updated successfully');
     }

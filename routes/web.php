@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\LoadCategoryController;
 
@@ -23,6 +25,13 @@ Route::get('home', function () {
     return view('home');
 });
 
+Route::get('projects', [ProjectController::class, 'index']);
+Route::get('projects/add', [ProjectController::class, 'add']);
+Route::post('projects', [ProjectController::class, 'addProcess']);
+Route::get('projects/edit/{id}', [ProjectController::class, 'edit']);
+Route::patch('projects/{id}', [ProjectController::class, 'editProcess']);
+Route::delete('projects/{id}', [ProjectController::class, 'delete']);
+
 Route::resource('load_categories', LoadCategoryController::class);
 
 Route::get('unit_models/data', [UnitModelController::class, 'index_data'])->name('unit_models.index.data');
@@ -30,3 +39,5 @@ Route::get('unit_models/import', [UnitModelController::class, 'import']);
 Route::get('unit_models/export', [UnitModelController::class, 'export'])->name('export');
 Route::post('unit_models/importProcess', [UnitModelController::class, 'importProcess']);
 Route::resource('unit_models', UnitModelController::class);
+
+Route::resource('unit', UnitController::class);
