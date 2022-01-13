@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoadCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['title' => 'Premi Operator Arka']);
 });
+
+Route::get('home', function () {
+    return view('home');
+});
+
+Route::resource('load_categories', LoadCategoryController::class);
