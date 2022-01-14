@@ -71,12 +71,7 @@ class EmployeeController extends Controller
         //input cara ketiga mass assignment syarat : field tabel dan nama inputan harus sama
         // Employee::create($request->all());
         // return redirect('employees')->with('status', 'Employee added successfully');
-        
-    
-    
     }
-
-
 
     /**
      * Display the specified resource.
@@ -130,10 +125,6 @@ class EmployeeController extends Controller
                 'employee_name' => $request->employee_name,
                     ]);
         return redirect('employees')->with('status', 'Employee updated successfully');
-
-
-
-       
     }
 
     /**

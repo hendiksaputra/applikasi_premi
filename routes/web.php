@@ -3,20 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UnitModelController;
-use App\Http\Controllers\LoadCategoryController;
 use App\Http\Controllers\UnitPremiController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\LoadCategoryController;
 
 Route::get('/', function () {
     return view('welcome', ['title' => 'Premi Operator Arka']);
@@ -49,3 +39,10 @@ Route::post('units/importProcess', [UnitController::class, 'importProcess']);
 Route::resource('units', UnitController::class);
 
 Route::resource('unit_premis', UnitPremiController::class);
+
+Route::get('employees/trash', [EmployeeController::class, 'trash']);
+Route::get('employees/restore/{id?}', [EmployeeController::class, 'restore']);
+Route::get('employees/delete/{id?}', [EmployeeController::class, 'delete']);
+Route::resource('employees', EmployeeController::class);
+
+Route::resource('prod_parameters', ProdParameterController::class);
