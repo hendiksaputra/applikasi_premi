@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PlantUnitController;
 use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\UnitPremiController;
 use App\Http\Controllers\LoadCategoryController;
+use App\Http\Controllers\ProdParameterController;
 
 Route::get('/', function () {
     return view('welcome', ['title' => 'Premi Operator Arka']);
@@ -40,6 +42,9 @@ Route::resource('units', UnitController::class);
 
 Route::get('unit_premis/data', [UnitPremiController::class, 'index_data'])->name('unit_premis.index.data');
 Route::resource('unit_premis', UnitPremiController::class);
+
+Route::get('plant_units/data', [PlantUnitController::class, 'index_data'])->name('plant_units.index.data');
+Route::resource('plant_units', PlantUnitController::class);
 
 Route::get('employees/trash', [EmployeeController::class, 'trash']);
 Route::get('employees/restore/{id?}', [EmployeeController::class, 'restore']);
