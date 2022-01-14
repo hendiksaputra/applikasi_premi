@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="card-body table-responsive">
-          <table id="units-table" class="table table-striped table-bordered" width=100%>
+          <table id="unitPremis-table" class="table table-striped table-bordered" width=100%>
             <thead>
               <tr>
                 <th width="5%">No</th>
@@ -54,7 +54,7 @@
                 <th width="15%" class="text-center">Action</th>
               </tr>
             </thead>
-            <tbody>
+            {{-- <tbody>
               @foreach ($unitPremis as $item)
                 <tr>
                   <td>{{ $loop->iteration }}</td>
@@ -79,20 +79,20 @@
                   </td>
                 </tr>
               @endforeach
-            </tbody>
+            </tbody> --}}
           </table>
         </div>
       </div>
     </div>
   </div>
 
-  {{-- <script src="{{ asset('style/assets/js/lib/data-table/datatables.min.js') }}"></script>
+  <script src="{{ asset('style/assets/js/lib/data-table/datatables.min.js') }}"></script>
   <script>
     $(function() {
-      $("#units-table").DataTable({
+      $("#unitPremis-table").DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{{ route('units.index.data') }}',
+        ajax: '{{ route('unit_premis.index.data') }}',
         columns: [{
             data: 'DT_RowIndex',
             orderable: false,
@@ -102,19 +102,20 @@
             data: 'unit_no'
           },
           {
-            data: 'model_no'
+            data: 'code'
           },
           {
-            data: 'code_project'
+            data: 'premi'
           },
           {
             data: 'action',
             orderable: false,
-            searchable: false
+            searchable: false,
+            className: 'text-center'
           },
         ],
         fixedHeader: true,
       })
     });
-  </script> --}}
+  </script>
 @endsection

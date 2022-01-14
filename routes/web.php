@@ -38,6 +38,7 @@ Route::get('units/import', [UnitController::class, 'import']);
 Route::post('units/importProcess', [UnitController::class, 'importProcess']);
 Route::resource('units', UnitController::class);
 
+Route::get('unit_premis/data', [UnitPremiController::class, 'index_data'])->name('unit_premis.index.data');
 Route::resource('unit_premis', UnitPremiController::class);
 
 Route::get('employees/trash', [EmployeeController::class, 'trash']);

@@ -123,4 +123,24 @@ class UnitPremiController extends Controller
 
         return redirect('unit_premis')->with('status', 'Unit Premi deleted successfully');
     }
+
+    public function index_data()
+    {
+        $unitPremis = UnitPremi::latest()->get();
+
+        return datatables()->of($unitPremis)
+            ->addIndexColumn()
+            ->addColumn('unit_no', function($unitPremis){
+                return $unitPremis->unit->unit_no;
+            })
+            ->addColumn('code', function($unitPremis){
+                return $unitPremis->unit->project->code;
+            })
+            ->addColumn('premi', function($unitPremis){
+                return $unitPremis->premi;
+            })
+            ->addColumn('action', 'unit_premi.action')
+            ->rawColumns(['action'])
+            ->toJson();
+    }
 }
