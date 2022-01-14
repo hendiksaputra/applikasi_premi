@@ -28,7 +28,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $projects = Project::all(); 
+        $projects = Project::orderBy('code')->get(); 
 
         return view('employee.create', compact('projects'));
     }

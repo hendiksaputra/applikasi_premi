@@ -45,6 +45,9 @@
 
           <h3 class="menu-title">Master Data</h3><!-- /.menu-title -->
           <li>
+            <a href="{{ url('employees') }}"> <i class="menu-icon fa fa-users"></i>Employees</a>
+          </li>
+          <li>
             <a href="{{ url('units') }}"> <i class="menu-icon fa fa-truck"></i>Units</a>
           </li>
           <li>
