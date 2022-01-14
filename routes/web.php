@@ -5,6 +5,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\LoadCategoryController;
+use App\Http\Controllers\UnitPremiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +47,5 @@ Route::get('units/data', [UnitController::class, 'index_data'])->name('units.ind
 Route::get('units/import', [UnitController::class, 'import']);
 Route::post('units/importProcess', [UnitController::class, 'importProcess']);
 Route::resource('units', UnitController::class);
+
+Route::resource('unit_premis', UnitPremiController::class);
