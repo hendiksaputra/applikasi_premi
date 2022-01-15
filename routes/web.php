@@ -9,6 +9,7 @@ use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\UnitPremiController;
 use App\Http\Controllers\LoadCategoryController;
 use App\Http\Controllers\ProdParameterController;
+use App\Http\Controllers\AttendanceCategoryController;
 
 Route::get('/', function () {
     return view('welcome', ['title' => 'Premi Operator Arka']);
@@ -51,5 +52,12 @@ Route::get('employees/trash', [EmployeeController::class, 'trash']);
 Route::get('employees/restore/{id?}', [EmployeeController::class, 'restore']);
 Route::get('employees/delete/{id?}', [EmployeeController::class, 'delete']);
 Route::resource('employees', EmployeeController::class);
+
+Route::get('attendance_categories', [AttendanceCategoryController::class, 'index']);
+Route::get('attendance_categories/add', [AttendanceCategoryController::class, 'add']);
+Route::post('attendance_categories', [AttendanceCategoryController::class, 'addProcess']);
+Route::get('attendance_categories/edit/{id}', [AttendanceCategoryController::class, 'edit']);
+Route::patch('attendance_categories/{id}', [AttendanceCategoryController::class, 'editProcess']);
+Route::delete('attendance_categories/{id}', [AttendanceCategoryController::class, 'delete']);
 
 Route::resource('prod_parameters', ProdParameterController::class);
