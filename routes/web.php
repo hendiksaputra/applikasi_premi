@@ -9,6 +9,7 @@ use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\UnitPremiController;
 use App\Http\Controllers\LoadCategoryController;
 use App\Http\Controllers\ProdParameterController;
+use App\Http\Controllers\WarningCategoryController;
 use App\Http\Controllers\AttendanceCategoryController;
 
 Route::get('/', function () {
@@ -59,5 +60,12 @@ Route::post('attendance_categories', [AttendanceCategoryController::class, 'addP
 Route::get('attendance_categories/edit/{id}', [AttendanceCategoryController::class, 'edit']);
 Route::patch('attendance_categories/{id}', [AttendanceCategoryController::class, 'editProcess']);
 Route::delete('attendance_categories/{id}', [AttendanceCategoryController::class, 'delete']);
+
+Route::get('warning_categories', [WarningCategoryController::class, 'index']);
+Route::get('warning_categories/add', [WarningCategoryController::class, 'add']);
+Route::post('warning_categories', [WarningCategoryController::class, 'addProcess']);
+Route::get('warning_categories/edit/{id}', [WarningCategoryController::class, 'edit']);
+Route::patch('warning_categories/{id}', [WarningCategoryController::class, 'editProcess']);
+Route::delete('warning_categories/{id}', [WarningCategoryController::class, 'delete']);
 
 Route::resource('prod_parameters', ProdParameterController::class);
