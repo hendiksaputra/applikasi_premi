@@ -7,7 +7,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Employee</h1>
+          <h1>Employees</h1>
         </div>
       </div>
     </div>
@@ -15,7 +15,6 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-
             <li class="active"><i class="fa fa-users"></i></li>
           </ol>
         </div>
@@ -55,9 +54,9 @@
 
                 <div class="form-group">
                   <label for="">Employee Name</label>
-                  <input type="text" name="employee_name" value="{{ old('employee_name') }}"
-                    class="form-control @error('employee_name') is-invalid @enderror" autofocus>
-                  @error('employee_name')
+                  <input type="text" name="name" value="{{ old('name') }}"
+                    class="form-control @error('name') is-invalid @enderror" autofocus>
+                  @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
                 </div>

@@ -46,6 +46,7 @@ Route::resource('unit_premis', UnitPremiController::class);
 Route::get('plant_units/data', [PlantUnitController::class, 'index_data'])->name('plant_units.index.data');
 Route::resource('plant_units', PlantUnitController::class);
 
+Route::get('employees/data', [EmployeeController::class, 'index_data'])->name('employees.index.data');
 Route::get('employees/trash', [EmployeeController::class, 'trash']);
 Route::get('employees/restore/{id?}', [EmployeeController::class, 'restore']);
 Route::get('employees/delete/{id?}', [EmployeeController::class, 'delete']);
