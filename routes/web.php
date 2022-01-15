@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\WarningController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PlantUnitController;
 use App\Http\Controllers\UnitModelController;
@@ -67,5 +68,11 @@ Route::post('warning_categories', [WarningCategoryController::class, 'addProcess
 Route::get('warning_categories/edit/{id}', [WarningCategoryController::class, 'edit']);
 Route::patch('warning_categories/{id}', [WarningCategoryController::class, 'editProcess']);
 Route::delete('warning_categories/{id}', [WarningCategoryController::class, 'delete']);
+
+Route::get('warnings/data', [WarningController::class, 'index_data'])->name('warnings.index.data');
+Route::get('warnings/trash', [WarningController::class, 'trash']);
+Route::get('warnings/restore/{id?}', [WarningController::class, 'restore']);
+Route::get('warnings/delete/{id?}', [WarningController::class, 'delete']);
+Route::resource('warnings', WarningController::class);
 
 Route::resource('prod_parameters', ProdParameterController::class);
