@@ -81,7 +81,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->makeHidden(['project_id']);
+        // $employee->makeHidden(['project_id']);
         return view('employee.show', compact('employee'));
     }
 

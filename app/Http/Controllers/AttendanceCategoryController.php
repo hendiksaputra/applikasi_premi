@@ -55,6 +55,7 @@ class AttendanceCategoryController extends Controller
             'remarks' => $request->remarks
         ]);
         return redirect('attendance_categories')->with('status', 'Category updated successfully');
+        // return redirect()->route('attendance_category.index')->with('status', 'Category updated successfully');
     }
 
     public function delete($id)

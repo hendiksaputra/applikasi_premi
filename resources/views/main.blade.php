@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="{{ asset('style/assets/scss/style.css') }}">
   <link rel="stylesheet" href="{{ asset('style/assets/css/lib/datatable/dataTables.bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('style/assets/css/lib/chosen/chosen.min.css') }}">
+  {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> --}}
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 </head>
 
@@ -38,6 +40,9 @@
         <ul class="nav navbar-nav">
           <li>
             <a href="{{ url('home') }}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+          </li>
+          <li>
+            <a href="{{ url('attendances') }}"> <i class="menu-icon fa fa-check-square"></i>Attendances</a>
           </li>
           <li>
             <a href="{{ url('warnings') }}"> <i class="menu-icon fa fa-warning"></i>Warnings (SP)</a>
@@ -133,6 +138,8 @@
   <script src="{{ asset('style/assets/js/lib/data-table/buttons.colVis.min.js') }}"></script>
   <script src="{{ asset('style/assets/js/lib/data-table/datatables-init.js') }}"></script>
   <script src="{{ asset('style/assets/js/lib/chosen/chosen.jquery.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
   <script type="text/javascript">
     $(document).ready(function() {

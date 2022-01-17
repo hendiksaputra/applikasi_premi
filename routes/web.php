@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PlantUnitController;
 use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\UnitPremiController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LoadCategoryController;
 use App\Http\Controllers\ProdParameterController;
 use App\Http\Controllers\WarningCategoryController;
@@ -49,18 +50,22 @@ Route::resource('unit_premis', UnitPremiController::class);
 Route::get('plant_units/data', [PlantUnitController::class, 'index_data'])->name('plant_units.index.data');
 Route::resource('plant_units', PlantUnitController::class);
 
-Route::get('employees/data', [EmployeeController::class, 'index_data'])->name('employees.index.data');
-Route::get('employees/trash', [EmployeeController::class, 'trash']);
-Route::get('employees/restore/{id?}', [EmployeeController::class, 'restore']);
-Route::get('employees/delete/{id?}', [EmployeeController::class, 'delete']);
-Route::resource('employees', EmployeeController::class);
+Route::prefix('employees')->group(function(){
+    Route::get('/data', [EmployeeController::class, 'index_data'])->name('employees.index.data');
+    Route::get('/trash', [EmployeeController::class, 'trash']);
+    Route::get('/restore/{id?}', [EmployeeController::class, 'restore']);
+    Route::get('/delete/{id?}', [EmployeeController::class, 'delete']);
+    Route::resource('/', EmployeeController::class)->parameters(['' => 'employee']);
+});
 
-Route::get('attendance_categories', [AttendanceCategoryController::class, 'index']);
-Route::get('attendance_categories/add', [AttendanceCategoryController::class, 'add']);
-Route::post('attendance_categories', [AttendanceCategoryController::class, 'addProcess']);
-Route::get('attendance_categories/edit/{id}', [AttendanceCategoryController::class, 'edit']);
-Route::patch('attendance_categories/{id}', [AttendanceCategoryController::class, 'editProcess']);
-Route::delete('attendance_categories/{id}', [AttendanceCategoryController::class, 'delete']);
+Route::prefix('attendance_categories')->group(function(){
+    Route::get('/', [AttendanceCategoryController::class, 'index'])->name('attendance_category.index');
+    Route::get('/add', [AttendanceCategoryController::class, 'add']);
+    Route::post('/', [AttendanceCategoryController::class, 'addProcess']);
+    Route::get('/edit/{id}', [AttendanceCategoryController::class, 'edit']);
+    Route::patch('/{id}', [AttendanceCategoryController::class, 'editProcess']);
+    Route::delete('/{id}', [AttendanceCategoryController::class, 'delete']);
+});
 
 Route::get('warning_categories', [WarningCategoryController::class, 'index']);
 Route::get('warning_categories/add', [WarningCategoryController::class, 'add']);
@@ -74,5 +79,13 @@ Route::get('warnings/trash', [WarningController::class, 'trash']);
 Route::get('warnings/restore/{id?}', [WarningController::class, 'restore']);
 Route::get('warnings/delete/{id?}', [WarningController::class, 'delete']);
 Route::resource('warnings', WarningController::class);
+
+Route::prefix('attendances')->group(function(){
+    Route::get('/data', [AttendanceController::class, 'index_data'])->name('attendances.index.data');
+    Route::get('/trash', [AttendanceController::class, 'trash']);
+    Route::get('/restore/{id?}', [AttendanceController::class, 'restore']);
+    Route::get('/delete/{id?}', [AttendanceController::class, 'delete']);
+    Route::resource('/', AttendanceController::class)->parameters(['' => 'attendance']);
+});
 
 Route::resource('prod_parameters', ProdParameterController::class);

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Project;
+use App\Models\Warning;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
@@ -17,5 +19,10 @@ class Employee extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function warning()
+    {
+        return $this->hasMany(Warning::class);
     }
 }

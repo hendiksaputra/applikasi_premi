@@ -7,7 +7,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Employees</h1>
+          <h1>{{ $title }}</h1>
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-users"></i></li>
+            <li class="active"><i class="fa fa-check-square"></i></li>
           </ol>
         </div>
       </div>
@@ -34,10 +34,10 @@
       <div class="card">
         <div class="card-header">
           <div class="pull-left">
-            <strong>Employee Detail</strong>
+            <strong>{{ $subtitle }}</strong>
           </div>
           <div class="pull-right">
-            <a href="{{ url('employees') }}" class="btn btn-success btn-sm">
+            <a href="{{ url('attendances') }}" class="btn btn-success btn-sm">
               <i class="fa fa-undo"></i> Back
             </a>
           </div>
@@ -45,20 +45,28 @@
         <div class="card-body table-responsive">
           <div class="row">
             <div class="col-md-8 offset-md-2">
-              {{-- @dd($employee->nik) --}}
               <table class="table table-bordered">
                 <tbody>
                   <tr>
                     <th style="width: 30%">NIK</th>
-                    <td>{{ $employee->nik }}</td>
+                    <td>{{ $attendance->employee->nik }}</td>
                   </tr>
                   <tr>
                     <th style="width: 30%">Employee Name</th>
-                    <td>{{ $employee->name }}</td>
+                    <td>{{ $attendance->employee->name }}</td>
                   </tr>
                   <tr>
                     <th style="width: 30%">Name Project</th>
-                    <td>{{ $employee->project->code }} - {{ $employee->project->name }}</td>
+                    <td>{{ $attendance->employee->project->code }} - {{ $attendance->employee->project->name }}</td>
+                  </tr>
+                  <tr>
+                    <th style="width: 30%">Present Time</th>
+                    <td>{{ $attendance->present_time }}</td>
+                  </tr>
+                  <tr>
+                    <th style="width: 30%">Category</th>
+                    <td>{{ $attendance->attendance_category->code }} -
+                      {{ $attendance->attendance_category->remarks }}</td>
                   </tr>
                 </tbody>
 
