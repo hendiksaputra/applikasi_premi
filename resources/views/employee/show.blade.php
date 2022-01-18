@@ -7,7 +7,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Employees</h1>
+          <h1>{{ $title }}</h1>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
       <div class="card">
         <div class="card-header">
           <div class="pull-left">
-            <strong>Employee Detail</strong>
+            <strong>{{ $subtitle }}</strong>
           </div>
           <div class="pull-right">
             <a href="{{ url('employees') }}" class="btn btn-success btn-sm">
@@ -61,19 +61,43 @@
                     <td>{{ $employee->project->code }} - {{ $employee->project->name }}</td>
                   </tr>
                 </tbody>
-
               </table>
-
             </div>
-
-
           </div>
-
-
         </div>
       </div>
 
-
+      <div class="card">
+        <div class="card-header">
+          <div class="pull-left">
+            <strong>Warning Detail</strong>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <table id="bootstrap-data-table" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Warning</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($employee->warning as $item)
+                    <tr>
+                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ $item->warning_category->warning_name }}</td>
+                      <td>{{ $item->warning_date }}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 @endsection

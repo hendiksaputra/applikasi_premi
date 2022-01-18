@@ -87,7 +87,6 @@ class EmployeeController extends Controller
     {
         $title = 'Employees';
         $subtitle = 'Employees Detail';
-        // $employee->makeHidden(['project_id']);
         return view('employee.show', compact('title','subtitle','employee'));
     }
 

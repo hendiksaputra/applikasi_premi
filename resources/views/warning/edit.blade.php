@@ -61,10 +61,6 @@
                   @enderror
                 </div>
                 <div class="form-group">
-                  <label for="">Project</label>
-                  <input type="text" class="form-control" value="" readonly>
-                </div>
-                <div class="form-group">
                   <label for="">Warning</label>
                   <select data-placeholder="Choose a warning..."
                     class="standardSelect @error('warning_category_id') is-invalid @enderror" tabindex="1"
