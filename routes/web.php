@@ -15,11 +15,11 @@ use App\Http\Controllers\WarningCategoryController;
 use App\Http\Controllers\AttendanceCategoryController;
 
 Route::get('/', function () {
-    return view('welcome', ['title' => 'Premi Operator Arka']);
+    return view('home', ['title' => 'Dashboard']);
 });
 
 Route::get('home', function () {
-    return view('home');
+    return view('home', ['title' => 'Dashboard']);
 });
 
 Route::get('projects/import', [ProjectController::class, 'import']);

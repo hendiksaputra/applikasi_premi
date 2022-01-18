@@ -17,8 +17,10 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        $title = 'Employees';
+        $subtitle = 'Employees Data';
         $employees = Employee::with('project')->orderBy('nik', 'asc')->get();
-        return view('employee/index', compact('employees'));
+        return view('employee/index', compact('title','subtitle','employees'));
     }
 
     /**
@@ -28,9 +30,11 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $title = 'Employees';
+        $subtitle = 'Add Employees';
         $projects = Project::orderBy('code')->get(); 
 
-        return view('employee.create', compact('projects'));
+        return view('employee.create', compact('title','subtitle','projects'));
     }
 
     /**
@@ -81,8 +85,10 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
+        $title = 'Employees';
+        $subtitle = 'Employees Detail';
         // $employee->makeHidden(['project_id']);
-        return view('employee.show', compact('employee'));
+        return view('employee.show', compact('title','subtitle','employee'));
     }
 
     /**
@@ -93,8 +99,10 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        $title = 'Employees';
+        $subtitle = 'Edit Employees';
         $projects = Project::all(); 
-        return view('employee.edit', compact('employee', 'projects'));
+        return view('employee.edit', compact('title','subtitle','employee', 'projects'));
     }
 
     /**
@@ -146,8 +154,10 @@ class EmployeeController extends Controller
 
     public function trash()
     {
+        $title = 'Employees';
+        $subtitle = 'Employees Data - Deleted';
         $employees = Employee::onlyTrashed()->orderBy('nik','asc')->get();
-        return view('employee.trash', compact('employees'));
+        return view('employee.trash', compact('title','subtitle','employees'));
 
     }
 
