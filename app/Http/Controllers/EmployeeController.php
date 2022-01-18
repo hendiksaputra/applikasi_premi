@@ -17,8 +17,10 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with('project')->get();
-        return view('employee/index', compact('employees'));
+        $title = 'Employees';
+        $subtitle = 'Employees Data';
+        $employees = Employee::with('project')->orderBy('nik', 'asc')->get();
+        return view('employee/index', compact('title','subtitle','employees'));
     }
 
     /**
@@ -28,9 +30,11 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $projects = Project::all(); 
+        $title = 'Employees';
+        $subtitle = 'Add Employees';
+        $projects = Project::orderBy('code')->get(); 
 
-        return view('employee.create', compact('projects'));
+        return view('employee.create', compact('title','subtitle','projects'));
     }
 
     /**
@@ -44,7 +48,7 @@ class EmployeeController extends Controller
 
         $request->validate([
             'nik' => 'required',
-            'employee_name' => 'required',
+            'name' => 'required',
             'project_id' => 'required',
         ]);
 
@@ -52,7 +56,7 @@ class EmployeeController extends Controller
         // $employee = new Employee;
         // $employee->nik = $request->nik;
         // $employee->project_id = $request->project_id;
-        // $employee->employee_name = $request->employee_name;
+        // $employee->name = $request->name;
         // $employee->save();
 
         // return redirect('employees')->with('status', 'Employee added successfully');
@@ -62,7 +66,7 @@ class EmployeeController extends Controller
          Employee::create([
              'nik' => $request->nik,
              'project_id' => $request->project_id,
-             'employee_name' => $request->employee_name,
+             'name' => $request->name,
 
          ]);
          return redirect('employees')->with('status', 'Employee added successfully');
@@ -71,12 +75,7 @@ class EmployeeController extends Controller
         //input cara ketiga mass assignment syarat : field tabel dan nama inputan harus sama
         // Employee::create($request->all());
         // return redirect('employees')->with('status', 'Employee added successfully');
-        
-    
-    
     }
-
-
 
     /**
      * Display the specified resource.
@@ -86,8 +85,9 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->makeHidden(['project_id']);
-        return view('employee/show', compact('employee'));
+        $title = 'Employees';
+        $subtitle = 'Employees Detail';
+        return view('employee.show', compact('title','subtitle','employee'));
     }
 
     /**
@@ -98,8 +98,10 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        $title = 'Employees';
+        $subtitle = 'Edit Employees';
         $projects = Project::all(); 
-        return view('employee.edit', compact('employee', 'projects'));
+        return view('employee.edit', compact('title','subtitle','employee', 'projects'));
     }
 
     /**
@@ -113,27 +115,22 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'nik' => 'required',
-            'employee_name' => 'required',
+            'name' => 'required',
             'project_id' => 'required',
         ]);
         // cara pertama
         // $employee->nik = $request->nik;
         // $employee->project_id = $request->project_id;
-        // $employee->employee_name = $request->employee_name;
+        // $employee->name = $request->name;
         // $employee->save();
 
         //cara ke dua : mass assignment
-        Employee::where('id', $employee->id)
-            ->update([
-                'nik' => $request->nik,
-                'project_id' => $request->project_id,
-                'employee_name' => $request->employee_name,
-                    ]);
+        Employee::where('id', $employee->id)->update([
+            'nik' => $request->nik,
+            'name' => $request->name,
+            'project_id' => $request->project_id,
+        ]);
         return redirect('employees')->with('status', 'Employee updated successfully');
-
-
-
-       
     }
 
     /**
@@ -156,8 +153,10 @@ class EmployeeController extends Controller
 
     public function trash()
     {
-        $employees = Employee::onlyTrashed()->get();
-        return view('employee.trash', compact('employees'));
+        $title = 'Employees';
+        $subtitle = 'Employees Data - Deleted';
+        $employees = Employee::onlyTrashed()->orderBy('nik','asc')->get();
+        return view('employee.trash', compact('title','subtitle','employees'));
 
     }
 
@@ -187,5 +186,25 @@ class EmployeeController extends Controller
         }
 
         return redirect('employees/trash')->with('status', 'Employee deleted permanent successfully');
+    }
+
+    public function index_data()
+    {
+        $employees = Employee::orderBy('nik','asc')->get();
+
+        return datatables()->of($employees)
+            ->addIndexColumn()
+            ->addColumn('nik', function($employees){
+                return $employees->nik;
+            })
+            ->addColumn('name', function($employees){
+                return $employees->name;
+            })
+            ->addColumn('project', function($employees){
+                return $employees->project->code .' - '.$employees->project->name;
+            })
+            ->addColumn('action', 'employee.action')
+            ->rawColumns(['action'])
+            ->toJson();
     }
 }
