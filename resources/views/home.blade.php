@@ -26,7 +26,7 @@
 @section('content')
   <div class="content mt-3">
     <div class="animated fadeIn">
-      Isi Home
+      Welcome back, <strong>{{ auth()->user()->name }}</strong>
     </div>
   </div>
 @endsection

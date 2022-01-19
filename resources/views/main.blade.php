@@ -109,13 +109,15 @@
               <img class="user-avatar rounded-circle" src="{{ asset('style/images/admin.jpg ') }}" alt="User Avatar">
             </a>
             <div class="user-menu dropdown-menu">
-              <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-              <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+              <form action="{{ url('/logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-sm btn-block"><i class="fa fa-power-off"></i>
+                  Logout</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
-
     </header>
 
     @yield('breadcrumbs')
