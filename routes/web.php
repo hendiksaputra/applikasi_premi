@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WarningController;
@@ -16,12 +17,12 @@ use App\Http\Controllers\ProdParameterController;
 use App\Http\Controllers\WarningCategoryController;
 use App\Http\Controllers\AttendanceCategoryController;
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'authenticate']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('login', [LoginController::class, 'authenticate']);
+Route::post('logout', [LoginController::class, 'logout']);
 
-Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store']);
+Route::get('register', [RegisterController::class, 'index'])->middleware('guest');
+Route::post('register', [RegisterController::class, 'store']);
 
 Route::middleware('auth')->group(function(){
     Route::get('/', function () {
@@ -99,5 +100,6 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::resource('prod_parameters', ProdParameterController::class);
-
+    
+    Route::resource('users', UserController::class);
 });
