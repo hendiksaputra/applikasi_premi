@@ -52,7 +52,7 @@
               </button>
             </div>
           @endif
-          <form action="{{ url('/register') }}" method="POST">
+          <form action="{{ url('register') }}" method="POST">
             @csrf
             <div class="form-group">
               <label>Full Name</label>
@@ -75,6 +75,19 @@
               <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password"
                 name="password">
               @error('password')
+                <div class="text-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label for="">Project</label>
+              <select name="project_id" class="form-control @error('project_id') is-invalid @enderror">
+                <option value="">- Select Project -</option>
+                @foreach ($projects as $item)
+                  <option value="{{ $item->id }}" {{ old('project_id') == $item->id ? 'selected' : null }}>
+                    {{ $item->code }} - {{ $item->name }}</option>
+                @endforeach
+              </select>
+              @error('project_id')
                 <div class="text-danger">{{ $message }}</div>
               @enderror
             </div>

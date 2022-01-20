@@ -83,6 +83,11 @@
               </li>
             </ul>
           </li>
+
+          <h3 class="menu-title">Administrator</h3><!-- /.menu-title -->
+          <li>
+            <a href="{{ url('users') }}"> <i class="menu-icon fa fa-key"></i>Users</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -109,7 +114,7 @@
               <img class="user-avatar rounded-circle" src="{{ asset('style/images/admin.jpg ') }}" alt="User Avatar">
             </a>
             <div class="user-menu dropdown-menu">
-              <form action="{{ url('/logout') }}" method="POST">
+              <form action="{{ url('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-danger btn-sm btn-block"><i class="fa fa-power-off"></i>
                   Logout</button>
