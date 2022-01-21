@@ -80,6 +80,19 @@
                     <div class="text-danger">{{ $message }}</div>
                   @enderror
                 </div>
+                <div class="form-group">
+                  <label for="">Roles</label>
+                  <select name="roles" class="form-control @error('roles') is-invalid @enderror">
+                    <option value="">- Select Role -</option>
+                    @foreach ($roles as $item)
+                      <option value="{{ $item->id }}" {{ old('roles') == $item->id ? 'selected' : null }}>
+                        {{ $item->name }}</option>
+                    @endforeach
+                  </select>
+                  @error('roles')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
                 <button type="submit" class="btn btn-success">Save</button>
               </form>
 

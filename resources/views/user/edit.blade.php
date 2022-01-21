@@ -61,9 +61,8 @@
                   @enderror
                 </div>
                 <div class="form-group">
-                  <label>Password <sup class="text-danger">*always change the password before saving</sup></label>
-                  <input type="password" class="form-control @error('password') is-invalid @enderror"
-                    placeholder="Password" name="password" value="{{ old('password', $user->password) }}">
+                  <label>Password</label>
+                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
                   @error('password')
                     <div class=" text-danger">{{ $message }}
                     </div>
@@ -80,6 +79,20 @@
                     @endforeach
                   </select>
                   @error('project_id')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="">Roles</label>
+                  <select name="roles" class="form-control @error('roles') is-invalid @enderror">
+                    <option value="">- Select Role -</option>
+                    @foreach ($roles as $item)
+                      <option value="{{ $item->id }}"
+                        {{ old('roles', $userRole) == $item->id ? 'selected' : null }}>
+                        {{ $item->name }}</option>
+                    @endforeach
+                  </select>
+                  @error('roles')
                     <div class="text-danger">{{ $message }}</div>
                   @enderror
                 </div>

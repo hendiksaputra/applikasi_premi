@@ -57,29 +57,24 @@
                   </tr>
                   <tr>
                     <th style="width: 30%">Project</th>
-                    <td>{{ $user->code }}</td>
+                    <td>{{ $user->project->code }}</td>
                   </tr>
                   <tr>
                     <th style="width: 30%">Created at</th>
                     <td>{{ $user->created_at }}</td>
                   </tr>
+                  <tr>
+                    <th style="width: 30%">Role</th>
+                    <td>
+                      @if (!empty($user->getRoleNames()))
+                        @foreach ($user->getRoleNames() as $v)
+                          <label class="badge badge-success">{{ $v }}</label>
+                        @endforeach
+                      @endif
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="pull-left">
-            <strong>Role Detail</strong>
-          </div>
-        </div>
-        <div class="card-body table-responsive">
-          <div class="row">
-            <div class="col-md-8 offset-md-2">
-
             </div>
           </div>
         </div>

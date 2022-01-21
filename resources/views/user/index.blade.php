@@ -54,6 +54,7 @@
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Project</th>
+                <th>Role</th>
                 <th class="text-center">Action</th>
               </tr>
             </thead>
@@ -63,7 +64,14 @@
                   <td>{{ $loop->iteration }}</td>
                   <td>{{ $item->name }}</td>
                   <td>{{ $item->email }}</td>
-                  <td>{{ $item->code }}</td>
+                  <td>{{ $item->project->code }}</td>
+                  <td>
+                    @if (!empty($item->getRoleNames()))
+                      @foreach ($item->getRoleNames() as $v)
+                        <label class="badge badge-success">{{ $v }}</label>
+                      @endforeach
+                    @endif
+                  </td>
                   <td class="text-center">
                     <a href="{{ url('users/' . $item->id) }}" class="btn btn-warning btn-sm">
                       <i class="fa fa-eye"></i>

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
@@ -14,5 +16,10 @@ class Project extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
+    }
+    
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

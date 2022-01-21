@@ -48,46 +48,49 @@
             <a href="{{ url('warnings') }}"> <i class="menu-icon fa fa-warning"></i>Warnings (SP)</a>
           </li>
 
-          <h3 class="menu-title">Master Data</h3><!-- /.menu-title -->
-          <li>
-            <a href="{{ url('employees') }}"> <i class="menu-icon fa fa-users"></i>Employees</a>
-          </li>
-          <li>
-            <a href="{{ url('units') }}"> <i class="menu-icon fa fa-truck"></i>Units</a>
-          </li>
-          <li>
-            <a href="{{ url('unit_models') }}"> <i class="menu-icon fa fa-th-large"></i>Unit Models</a>
-          </li>
-          <li>
-            <a href="{{ url('unit_premis') }}"> <i class="menu-icon fa fa-rub"></i>Unit Premis</a>
-          </li>
-          <li>
-            <a href="{{ url('plant_units') }}"> <i class="menu-icon fa fa-flag"></i>Plant Units</a>
-          </li>
-          <li>
-            <a href="{{ url('projects') }}"> <i class="menu-icon fa fa-building"></i>Projects</a>
-          </li>
+          @role('administrator|superadmin')
+            <h3 class="menu-title">Master Data</h3><!-- /.menu-title -->
+            <li>
+              <a href="{{ url('employees') }}"> <i class="menu-icon fa fa-users"></i>Employees</a>
+            </li>
+            <li>
+              <a href="{{ url('units') }}"> <i class="menu-icon fa fa-truck"></i>Units</a>
+            </li>
+            <li>
+              <a href="{{ url('unit_models') }}"> <i class="menu-icon fa fa-th-large"></i>Unit Models</a>
+            </li>
+            <li>
+              <a href="{{ url('unit_premis') }}"> <i class="menu-icon fa fa-rub"></i>Unit Premis</a>
+            </li>
+            <li>
+              <a href="{{ url('plant_units') }}"> <i class="menu-icon fa fa-flag"></i>Plant Units</a>
+            </li>
+            <li>
+              <a href="{{ url('projects') }}"> <i class="menu-icon fa fa-building"></i>Projects</a>
+            </li>
 
-          <li class="menu-item-has-children dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                class="menu-icon fa fa-tasks"></i>Categories</a>
-            <ul class="sub-menu children dropdown-menu">
-              <li><i class="menu-icon fa fa-tags"></i><a href="{{ url('attendance_categories') }}">Attendance
-                  Categories</a>
-              </li>
-              <li><i class="menu-icon fa fa-tags"></i><a href="{{ url('load_categories') }}">Load
-                  Categories</a>
-              </li>
-              <li><i class="menu-icon fa fa-tags"></i><a href="{{ url('warning_categories') }}">Warning
-                  Categories</a>
-              </li>
-            </ul>
-          </li>
-
-          <h3 class="menu-title">Administrator</h3><!-- /.menu-title -->
-          <li>
-            <a href="{{ url('users') }}"> <i class="menu-icon fa fa-key"></i>Users</a>
-          </li>
+            <li class="menu-item-has-children dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
+                  class="menu-icon fa fa-tasks"></i>Categories</a>
+              <ul class="sub-menu children dropdown-menu">
+                <li><i class="menu-icon fa fa-tags"></i><a href="{{ url('attendance_categories') }}">Attendance
+                    Categories</a>
+                </li>
+                <li><i class="menu-icon fa fa-tags"></i><a href="{{ url('load_categories') }}">Load
+                    Categories</a>
+                </li>
+                <li><i class="menu-icon fa fa-tags"></i><a href="{{ url('warning_categories') }}">Warning
+                    Categories</a>
+                </li>
+              </ul>
+            </li>
+          @endrole
+          @role('superadmin')
+            <h3 class="menu-title">Administrator</h3><!-- /.menu-title -->
+            <li>
+              <a href="{{ url('users') }}"> <i class="menu-icon fa fa-key"></i>Users</a>
+            </li>
+          @endrole
         </ul>
       </div>
     </nav>
