@@ -32,7 +32,7 @@
         </div>
       @endif
 
-      {{-- <div class="card" id="accordionFlushExample">
+      <div class="card" id="accordionFlushExample">
         <div class="card-header" id="flush-headingOne" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
           <strong class="card-title" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
             aria-controls="flush-collapseOne">
@@ -41,11 +41,13 @@
         </div>
         <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
           data-bs-parent="#accordionFlushExample">
-          <div class="card-body">Placeholder content for this accordion, which is intended to demonstrate the
-            <code>.accordion-flush</code> class. This is the first item's accordion body.
+          <div class="card-body">
+            <form action="{{ url('attendances/index_data') }}" method="post">
+
+            </form>
           </div>
         </div>
-      </div> --}}
+      </div>
 
       <div class="card">
         <div class="card-header">
