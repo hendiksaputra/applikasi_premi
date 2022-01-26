@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\AttendanceCategory;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
@@ -14,13 +15,81 @@ class AttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // public function index()
+    // {
+    //     $title = 'Attendances';
+    //     $subtitle = 'Attendances Data';
+    //     $attendances = Attendance::with('employee','attendance_category')->latest()->get();
+    
+    //     return view('attendance.index', compact('title', 'subtitle', 'attendances','category'));
+    // }
+    
+    public function index(Request $request)
     {
         $title = 'Attendances';
         $subtitle = 'Attendances Data';
-        $attendances = Attendance::with('employee','attendance_category')->latest()->get();
-
-        return view('attendance.index', compact('title', 'subtitle', 'attendances'));
+        $category = AttendanceCategory::orderBy('code','asc')->get();
+        if ($request->ajax()) {
+            $attendances = DB::table('attendances')
+                        ->select(['attendances.id','employees.nik','employees.name','attendances.present_time','attendance_categories.code','attendance_categories.remarks'])
+                        ->join('employees','attendances.employee_id','=','employees.id')
+                        ->join('attendance_categories','attendances.attendance_category_id','=','attendance_categories.id')
+                        ->orderBy('attendances.id', 'desc');
+            return datatables()->of($attendances)
+                ->addIndexColumn()
+                ->addColumn('nik', function($attendances){
+                    return $attendances->nik;
+                })
+                ->addColumn('name', function($attendances){
+                    return $attendances->name;
+                })
+                ->addColumn('time', function($attendances){
+                    return $attendances->present_time;
+                })
+                ->addColumn('category', function($attendances){
+                    return $attendances->code .' - '.$attendances->remarks;
+                })
+                ->filter(function ($instance) use ($request) {
+                    if (!empty($request->get('date1') && !empty($request->get('date2')))) {
+                        $instance->where(function($w) use($request){
+                            $date1 = $request->get('date1');
+                            $date2 = $request->get('date2');
+                            $w->whereBetween(DB::raw('DATE(present_time)'), array($date1, $date2));
+                        });
+                    }
+                    if (!empty($request->get('nik'))) {
+                        $instance->where(function($w) use($request){
+                            $nik = $request->get('nik');
+                            $w->orWhere('nik', 'LIKE','%'.$nik.'%');
+                        });
+                    }
+                    if (!empty($request->get('name'))) {
+                        $instance->where(function($w) use($request){
+                            $name = $request->get('name');
+                            $w->orWhere('name', 'LIKE','%'.$name.'%');
+                        });
+                    }
+                    if (!empty($request->get('category'))) {
+                        $instance->where(function($w) use($request){
+                            $category = $request->get('category');
+                            $w->orWhere('code', 'LIKE','%'.$category.'%');
+                        });
+                    }
+                    if (!empty($request->get('search'))) {
+                            $instance->where(function($w) use($request){
+                            $search = $request->get('search');
+                            $w->orWhere('name', 'LIKE', "%$search%")
+                            ->orWhere('nik', 'LIKE', "%$search%");
+                        });
+                    }
+                }, true)
+                ->addColumn('action', 'attendance.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        } else {
+            
+        }
+        return view('attendance.index', compact('title','subtitle','category'));
     }
 
     /**

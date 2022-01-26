@@ -27,26 +27,6 @@ Route::post('register', [RegisterController::class, 'store']);
 
 Route::middleware('auth')->group(function(){
     Route::get('/', function () {
-        // $user = auth()->user();
-        // $role = Role::find(1);
-        // role
-        // $user->assignRole('operator');
-        // $user->syncRoles(['administrator']);
-        // $user->removeRoles(['administrator']);
-        // if($user->hasRole('administrator')){
-        //     return 'administrator';
-        // } elseif ($user->hasRole('operator')) {
-        //     return 'operator';
-        // } else {
-        //     return 'superadmin';
-        // }
-
-        // permission
-        // $role->givePermissionTo('view project');
-        // $role->revokePermissionTo('delete project');
-        // $role->syncPermissions(['add project','edit project','delete project','view project']);
-        // dd($user->can('view project'));
-        
         return view('home', ['title' => 'Dashboard']);
     });
 
@@ -113,6 +93,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('warnings', WarningController::class);
 
     Route::prefix('attendances')->group(function(){
+        Route::get('/index.data', [AttendanceController::class, 'index'])->name('attendances.index');
         Route::get('/data', [AttendanceController::class, 'index_data'])->name('attendances.index.data');
         Route::get('/trash', [AttendanceController::class, 'trash']);
         Route::get('/restore/{id?}', [AttendanceController::class, 'restore']);
