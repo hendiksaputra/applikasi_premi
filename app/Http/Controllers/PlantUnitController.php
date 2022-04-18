@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LoadCategory;
 use App\Models\PlantUnit;
+use App\Models\LoadCategory;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+
 
 class PlantUnitController extends Controller
 {
@@ -16,10 +17,9 @@ class PlantUnitController extends Controller
      */
     public function index()
     {
-        $title = 'Plant Units';
-        $subtitle = 'Plant Units Data';
         $plantUnits = PlantUnit::with('load_category', 'unit')->latest()->get();
-        return view('plant_unit.index', compact('title', 'subtitle', 'plantUnits'));
+        return view('plant_unit.index', compact('plantUnits'));
+    
     }
 
     /**
@@ -29,11 +29,10 @@ class PlantUnitController extends Controller
      */
     public function create()
     {
-        $title = 'Plant Units';
-        $subtitle = 'Add Plant Units';
         $loadCategory = LoadCategory::all();
         $unit = Unit::with('project', 'unit_model')->orderBy('unit_no','asc')->get();
-        return view('plant_unit.add', compact('title', 'subtitle', 'loadCategory','unit'));
+        return view('plant_unit.add', compact( 'loadCategory','unit'));
+    
     }
 
     /**
@@ -57,6 +56,7 @@ class PlantUnitController extends Controller
         PlantUnit::create($request->all());
 
         return redirect('plant_units')->with('status', 'Plant Unit added successfully');
+    
     }
 
     /**
@@ -67,9 +67,7 @@ class PlantUnitController extends Controller
      */
     public function show(PlantUnit $plantUnit)
     {
-        $title = 'Plant Units';
-        $subtitle = 'Plant Units Detail';
-        return view('plant_unit.show', compact('title', 'subtitle', 'plantUnit'));
+        //
     }
 
     /**
@@ -80,11 +78,11 @@ class PlantUnitController extends Controller
      */
     public function edit(PlantUnit $plantUnit)
     {
-        $title = 'Plant Units';
-        $subtitle = 'Edit Plant Units';
+       
         $loadCategory = LoadCategory::all();
         $unit = Unit::with('project', 'unit_model')->orderBy('unit_no','asc')->get();
-        return view('plant_unit.edit', compact('title', 'subtitle', 'plantUnit','loadCategory','unit'));
+        return view('plant_unit.edit', compact('plantUnit','loadCategory','unit'));
+    
     }
 
     /**
@@ -129,26 +127,4 @@ class PlantUnitController extends Controller
         return redirect('plant_units')->with('status', 'Plant Unit deleted successfully');
     }
 
-    public function index_data()
-    {
-        $plantUnits = PlantUnit::latest()->get();
-
-        return datatables()->of($plantUnits)
-            ->addIndexColumn()
-            ->addColumn('load_category_name', function($plantUnits){
-                return $plantUnits->load_category->name;
-            })
-            ->addColumn('unit_no', function($plantUnits){
-                return $plantUnits->unit->unit_no;
-            })
-            ->addColumn('dump_distance', function($plantUnits){
-                return $plantUnits->dump_distance;
-            })
-            ->addColumn('capacity', function($plantUnits){
-                return $plantUnits->capacity;
-            })
-            ->addColumn('action', 'plant_unit.action')
-            ->rawColumns(['action'])
-            ->toJson();
-    }
 }
