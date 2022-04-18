@@ -1,96 +1,88 @@
-@extends('main')
+@extends('layouts.master')
 
-@section('title', 'PPO-ARKA')
+@section('title')
+    Form Edit Warning/SP
+@endsection
 
-@section('breadcrumbs')
-  <div class="breadcrumbs">
-    <div class="col-sm-4">
-      <div class="page-header float-left">
-        <div class="page-title">
-          <h1>{{ $title }}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="page-header float-right">
-        <div class="page-title">
-          <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-warning"></i></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+@section('breadcrumb')
+    @parent
+    <li class="active">Edit Warning/SP</li>
 @endsection
 
 @section('content')
-  <div class="content mt-3">
-    <div class="animated fadeIn">
-      <div class="card">
-        <div class="card-header">
-          <div class="pull-left">
-            <strong>{{ $subtitle }}</strong>
-          </div>
-          <div class="pull-right">
-            <a href="{{ url('warnings') }}" class="btn btn-success btn-sm">
-              <i class="fa fa-undo"></i> Back
-            </a>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-8">
-              <form action="{{ url('warnings/' . $warning->id) }}" method="post">
-                @method('PUT')
-                @csrf
-                <div class="form-group">
-                  <label for="">Employee Name</label>
-                  <select data-placeholder="Choose an employee..."
-                    class="standardSelect @error('employee_id') is-invalid @enderror" tabindex="1" name="employee_id"
-                    autofocus>
-                    <option value=""></option>
-                    @foreach ($employees as $item)
-                      <option value="{{ $item->id }}"
-                        {{ old('employee_id', $warning->employee_id) == $item->id ? 'selected' : null }}>
-                        {{ $item->nik }} -
-                        {{ $item->name }}</option>
-                    @endforeach
-                  </select>
-                  @error('employee_id')
-                    <div class="text-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-                <div class="form-group">
-                  <label for="">Warning</label>
-                  <select data-placeholder="Choose a warning..."
-                    class="standardSelect @error('warning_category_id') is-invalid @enderror" tabindex="1"
-                    name="warning_category_id">
-                    <option value=""></option>
-                    @foreach ($warning_categories as $item)
-                      <option value="{{ $item->id }}"
-                        {{ old('warning_category_id', $warning->warning_category_id) == $item->id ? 'selected' : null }}>
-                        {{ $item->warning_name }}
-                      </option>
-                    @endforeach
-                  </select>
-                  @error('warning_category_id')
-                    <div class="text-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-                <div class=" form-group">
-                  <label for="">Date</label>
-                  <input type="date" name="warning_date" class="form-control @error('warning_date') is-invalid @enderror"
-                    value="{{ old('warning_date', $warning->warning_date) }}">
-                  @error('warning_date')
-                    <div class="text-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-                <button type=" submit" class="btn btn-success">Save</button>
-              </form>
-            </div>
-          </div>
-        </div>
+
+<div class="box">
+    <div class="box-header with-border">
+    
+      <div class="pull-right">
+        <a href="{{ url('warnings') }}" class="btn btn-warning btn-flat">
+        <i class="fa fa-undo"></i>Back</a>
       </div>
     </div>
+    <!-- /.box-header -->
+<div class="box-body">
+        
+<div class="box box-primary">
+      <div class="box-body">
+        <form action="{{ url('warnings/' . $warning->id) }}" method="post">
+            @method('patch')
+            @csrf
+            <div class="form-group  col-md-6">
+              <label for="nik" >NIK</label>
+              <input type="text" id="nik" name="nik" value="{{ old('nik', $warning->nik) }}" class="form-control @error('nik') is-invalid @enderror"
+                value="{{ old('nik') }}" autofocus readonly> 
+                <span class="input-group-btn">
+                <button onclick="tampilEmployee()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button>
+                </span>
+                @error('nik')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="form-group  col-md-6">
+                <label for="name_employee" >Employee Name</label>
+                <input type="text" name="name_employee" id="name_employee" value="{{ old('name_employee', $warning->name_employee) }}" class="form-control @error('name_employee') is-invalid @enderror" autofocus readonly>
+                @error('name_employee')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
+              </div>  
+              <div class="form-group  col-md-6">
+                <label for="warning_value" >Warning</label>
+                <select name="warning_value" id="warning_value" value="{{ old('warning_value', $warning->warning_value) }}" class="form-control @error('warning_value') is-invalid @enderror">
+                <option value="">Select</option>
+                <option value="1" {{ $warning->warning_value == '1' ? 'selected' : ''}}>1</option>
+                <option value="2" {{ $warning->warning_value == '2' ? 'selected' : ''}}>2</option>
+                <option value="3" {{ $warning->warning_value == '3' ? 'selected' : ''}}>3</option>
+                
+                   
+                </select>
+                  @error('attendance_value')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>   
+              <div class="form-group  col-md-6">
+                <label for="warning_month" >Month/Years</label>
+                <input type="month" name="warning_month" value="{{ old('warning_month', $warning->warning_month) }}" class="form-control @error('warning_month') is-invalid @enderror" autofocus>
+                  @error('warning_month')
+                     <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+              <div class="form-group  col-md-6">
+                <label for="warning_date" >Date</label>
+                <input type="date" name="warning_date"
+                name="warning_date" class="form-control @error('warning_date') is-invalid @enderror"
+                    value="{{ old('warning_date', $warning->warning_date) }}">
+                  @error('warning_date')
+                      <div class="has-warning form-group">{{ $message }}</div>
+                  @enderror
+              </div>                                                    
+      </div>
+
+      <div class="box-footer">
+        <button type="reset"  class="btn btn-default">Cancel</button>
+        <button type=" submit" class="btn btn-success pull-right">Save</button>
+      </div>
+    </form>
+  
   </div>
+    
 @endsection
