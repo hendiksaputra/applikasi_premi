@@ -1,82 +1,76 @@
-@extends('main')
+@extends('layouts.master')
 
-@section('title', 'PPO-ARKA')
-
-@section('breadcrumbs')
-  <div class="breadcrumbs">
-    <div class="col-sm-4">
-      <div class="page-header float-left">
-        <div class="page-title">
-          <h1>{{ $title }}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="page-header float-right">
-        <div class="page-title">
-          <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-tags"></i></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+@section('title')
+    Daftar Load Category
 @endsection
 
-@section('content')
-  <div class="content mt-3">
-    <div class="animated fadeIn">
-      @if (session('status'))
-        <div class="alert alert-success">
-          {{ session('status') }}
-        </div>
-      @endif
+@section('breadcrumb')
+    @parent
+    <li class="active">Load Category</li>
+@endsection
 
-      <div class="card">
-        <div class="card-header">
-          <div class="pull-left">
-            <strong>{{ $subtitle }}</strong>
-          </div>
+
+@section('content')
+
+<div class="content mt-3">
+    <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Load Category Data Table</h3>
           <div class="pull-right">
             <a href="{{ url('load_categories/create') }}" class="btn btn-success btn-sm">
               <i class="fa fa-plus"></i> Add
             </a>
           </div>
         </div>
-        <div class="card-body table-responsive">
-          <table id="bootstrap-data-table" class="table table-striped table-bordered">
+        @if (session('status'))
+        <div class="alert alert-success">
+          {{ session('status') }}
+        </div>
+      @endif
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row">
+              <div class="col-sm-6"></div><div class="col-sm-6"></div>
+          </div>
+          <div class="row"><div class="col-sm-12">
+              <table id="table1" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
             <thead>
-              <tr>
-                <th>No</th>
-                <th>Load Category Name</th>
-                <th>Action</th>
-              </tr>
+            <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">No</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Load Category Name</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Action</th>
+                
             </thead>
             <tbody>
-              @foreach ($loadCategories as $item)
-                {{-- {{ dd($loadCategories) }} --}}
-                <tr>
-                  <td>{{ $loop->iteration }}</td>
-                  <td>{{ $item->name }}</td>
-                  <td class="text-center">
-                    <a href="{{ url('load_categories/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
-                      <i class="fa fa-pencil"></i>
-                    </a>
-                    <form action="{{ url('load_categories/' . $item->id) }}" method="post"
-                      onsubmit="return confirm('Are you sure want to delete this data?')" class="d-inline">
-                      @method('delete')
-                      @csrf
-                      <button class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
+                @foreach ($loadCategories as $item)       
+            <tr role="row" class="odd">
+              <td class="sorting_1">{{ $loop->iteration }}</td>
+              <td>{{ $item->name }}</td>
+              <td class="text-center">
+                
+                <form action="{{ url('load_categories/' . $item->id) }}" method="post"
+                  onsubmit="return confirm('Are you sure want to delete this data?')" class="d-inline">
+                  @method('delete')
+                  @csrf
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <a href="{{ url('load_categories/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                </form>
+            
+            
+             </td>
+              
+            </tr>
+            @endforeach
+           </tbody>
+            
           </table>
+        </div></div><div class="row"><div class="col-sm-5">
+            
         </div>
+        <!-- /.box-body -->
       </div>
-    </div>
-  </div>
 @endsection
