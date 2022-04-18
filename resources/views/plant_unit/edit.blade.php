@@ -1,54 +1,36 @@
-@extends('main')
+@extends('layouts.master')
 
-@section('title', 'PPO-ARKA')
+@section('title')
+    Form Edit Plant Unit
+@endsection
 
-@section('breadcrumbs')
-  <div class="breadcrumbs">
-    <div class="col-sm-4">
-      <div class="page-header float-left">
-        <div class="page-title">
-          <h1>{{ $title }}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="page-header float-right">
-        <div class="page-title">
-          <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-flag"></i></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+@section('breadcrumb')
+    @parent
+    <li class="active">Edit Plant Unit</li>
 @endsection
 
 @section('content')
-  <div class="content mt-3">
-    <div class="animated fadeIn">
-      <div class="card">
-        <div class="card-header">
-          <div class="pull-left">
-            <strong>{{ $subtitle }}</strong>
-          </div>
-          <div class="pull-right">
-            <a href="{{ url('plant_units') }}" class="btn btn-success btn-sm">
-              <i class="fa fa-undo"></i> Back
-            </a>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-8">
-              <form action="{{ url('plant_units/' . $plantUnit->id) }}" method="post">
-                @method('PUT')
-                @csrf
-                <div class="form-group">
-                  <label for="">Load Category</label>
-                  <select data-placeholder="Choose a load category..."
-                    class="standardSelect @error('load_category_id') is-invalid @enderror" tabindex="1"
-                    name="load_category_id" autofocus>
-                    <option value=""></option>
+
+<div class="box">
+    <div class="box-header with-border">
+    
+      <div class="pull-right">
+        <a href="{{ url('plant_units') }}" class="btn btn-warning btn-flat">
+        <i class="fa fa-undo"></i>Back</a>
+      </div>
+    </div>
+    <!-- /.box-header -->
+<div class="box-body">
+        
+<div class="box box-primary">
+      <div class="box-body">
+        <form action="{{ url('plant_units/' . $plantUnit->id) }}" method="post">
+            @method('patch')
+            @csrf
+            <div class="form-group  col-md-6">
+                <label for="load_category_id" >Load Category</label>
+                <select name="load_category_id" class="form-control @error('load_category_id') is-invalid @enderror">
+                    <option value="">--Select--</option>
                     @foreach ($loadCategory as $item)
                       <option value="{{ $item->id }}"
                         {{ old('load_category_id', $plantUnit->load_category_id) == $item->id ? 'selected' : null }}>
@@ -56,48 +38,50 @@
                     @endforeach
                   </select>
                   @error('load_category_id')
-                    <div class="text-danger">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
-                </div>
-                <div class="form-group">
-                  <label for="">Unit No</label>
-                  <select data-placeholder="Choose an unit..."
-                    class="standardSelect @error('unit_id') is-invalid @enderror" tabindex="1" name="unit_id" autofocus>
-                    <option value=""></option>
+              </div>   
+              <div class="form-group  col-md-6">
+                <label for="unit_id" >Unit No</label>
+                <select name="unit_id" class="form-control @error('unit_id') is-invalid @enderror">
+                    <option value="">--Select--</option>
                     @foreach ($unit as $item)
-                      <option value="{{ $item->id }}"
-                        {{ old('unit_id', $plantUnit->unit_id) == $item->id ? 'selected' : null }}>
-                        {{ $item->unit_no }} - {{ $item->unit_desc }} - {{ $item->project->code }}
-                      </option>
+                    <option value="{{ $item->id }}"
+                      {{ old('unit_id', $plantUnit->unit_id) == $item->id ? 'selected' : null }}>
+                      {{ $item->unit_no }} - {{ $item->unit_desc }} - {{ $item->project->code }}
+                    </option>
                     @endforeach
                   </select>
                   @error('unit_id')
-                    <div class="text-danger">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
-                </div>
-                <div class="form-group">
-                  <label for="">Dump Distance</label>
-                  <input type="text" name="dump_distance"
-                    class="form-control @error('dump_distance') is-invalid @enderror"
-                    value="{{ old('dump_distance', $plantUnit->dump_distance) }}">
+              </div>
+              <div class="form-group  col-md-6">
+                <label for="dump_distance" >Dump Distance*</label>
+                <input type="text" name="dump_distance"
+                class="form-control @error('dump_distance') is-invalid @enderror"
+                value="{{ old('dump_distance', $plantUnit->dump_distance) }}">
                   @error('dump_distance')
-                    <div class="text-danger">{{ $message }}</div>
+                      <div class="has-warning form-group">{{ $message }}</div>
                   @enderror
-                </div>
-                <div class="form-group">
-                  <label for="">Capacity</label>
-                  <input type="text" name="capacity" class="form-control @error('capacity') is-invalid @enderror"
+              </div> 
+              <div class="form-group  col-md-6">
+                <label for="capacity" >Capacity</label>
+                <input type="text" name="capacity"
+                class="form-control @error('capacity') is-invalid @enderror"
                     value="{{ old('capacity', $plantUnit->capacity) }}">
                   @error('capacity')
-                    <div class="text-danger">{{ $message }}</div>
+                      <div class="has-warning form-group">{{ $message }}</div>
                   @enderror
-                </div>
-                <button type=" submit" class="btn btn-success">Save</button>
-              </form>
-            </div>
-          </div>
-        </div>
+              </div>                                           
       </div>
-    </div>
+
+      <div class="box-footer">
+        <button type="reset"  class="btn btn-default">Cancel</button>
+        <button type=" submit" class="btn btn-success pull-right">Save</button>
+      </div>
+    </form>
+  
   </div>
+    
 @endsection
