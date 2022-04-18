@@ -12,7 +12,7 @@ class ProdParameter extends Model
     use HasFactory;
     protected $fillable = [
         'project_id',
-        'date',
+        'parameter_date',
         'plan_fuel_factor',
         'cum_prod_ob',
         'cum_prod_coal',
