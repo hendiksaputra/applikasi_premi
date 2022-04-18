@@ -15,11 +15,7 @@ class LoadCategoryController extends Controller
     public function index()
     {
         $loadCategories = LoadCategory::all();
-        return view('load_category.index', [
-            'title' => 'Load Categories',
-            'subtitle' => 'Load Categories Data',
-            'loadCategories' => $loadCategories
-        ]);
+        return view('load_category.index', ['loadCategories' => $loadCategories]);
     }
 
     /**
