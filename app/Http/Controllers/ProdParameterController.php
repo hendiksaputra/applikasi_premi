@@ -8,24 +8,40 @@ use Illuminate\Http\Request;
 
 class ProdParameterController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $prod_parameters = ProdParameter::with('project')->get();
         return view('prod_parameter/index', compact('prod_parameters'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        $projects = Project::all(); 
-
+        
+        $projects = Project::orderBy('code_project')->get(); 
         return view('prod_parameter.create', compact('projects'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $request->validate([
             'project_id' => 'required',
-            'date' => 'required',
+            'parameter_date' => 'required',
             'plan_fuel_factor' => 'required',
             'cum_prod_ob' => 'required',
             'cum_prod_coal' => 'required',
@@ -35,7 +51,7 @@ class ProdParameterController extends Controller
 
         ProdParameter::create([
              'project_id' => $request->project_id,
-             'date' => $request->date,
+             'parameter_date' => $request->parameter_date,
              'plan_fuel_factor' => $request->plan_fuel_factor,
              'cum_prod_ob' => $request->cum_prod_ob,
              'cum_prod_coal' => $request->cum_prod_coal,
@@ -45,26 +61,43 @@ class ProdParameterController extends Controller
          ]);
          return redirect('prod_parameters')->with('status', 'Production Parameters added successfully');
 
-
     }
 
-    public function show(ProdParameter $prod_parameter)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\ProdParameter  $prodParameter
+     * @return \Illuminate\Http\Response
+     */
+    public function show(ProdParameter $prodParameter)
     {
-        $prod_parameter->makeHidden(['project_id']);
-        return view('prod_parameter/show', compact('prod_parameter'));
+        //
     }
 
-    public function edit(ProdParameter $prod_parameter)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\ProdParameter  $prodParameter
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(ProdParameter $prodParameter)
     {
         $projects = Project::all(); 
-        return view('prod_parameter.edit', compact('prod_parameter', 'projects'));
+        return view('prod_parameter.edit', compact('prodParameter', 'projects'));
     }
 
-    public function update(Request $request, ProdParameter $prod_parameter)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\ProdParameter  $prodParameter
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, ProdParameter $prodParameter)
     {
         $request->validate([
             'project_id' => 'required',
-            'date' => 'required',
+            'parameter_date' => 'required',
             'plan_fuel_factor' => 'required',
             'cum_prod_ob' => 'required',
             'cum_prod_coal' => 'required',
@@ -72,10 +105,10 @@ class ProdParameterController extends Controller
             'join_survey' => 'required',
         ]);
 
-        ProdParameter::where('id', $prod_parameter->id)
+        ProdParameter::where('id', $prodParameter->id)
             ->update([
              'project_id' => $request->project_id,
-             'date' => $request->date,
+             'parameter_date' => $request->parameter_date,
              'plan_fuel_factor' => $request->plan_fuel_factor,
              'cum_prod_ob' => $request->cum_prod_ob,
              'cum_prod_coal' => $request->cum_prod_coal,
@@ -84,12 +117,16 @@ class ProdParameterController extends Controller
                     ]);
         return redirect('prod_parameters')->with('status', 'Production Parameter updated successfully');
     }
-
-    public function destroy(ProdParameter $prod_parameter)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\ProdParameter  $prodParameter
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(ProdParameter $prodParameter)
     {
-        ProdParameter::destroy($prod_parameter->id);
+        ProdParameter::destroy($prodParameter->id);
 
         return redirect('prod_parameters')->with('status', 'Production Parameter deleted successfully');
     }
-
 }
