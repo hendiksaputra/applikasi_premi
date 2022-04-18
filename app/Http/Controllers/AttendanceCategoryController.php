@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttendanceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AttendanceCategoryController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $title = 'Attendance Categories';
-        $subtitle = 'Attendance Categories Data';
         $attendanceCategories = DB::table('attendance_categories')->orderBy('code', 'asc')->get();
-        return view('attendance_category.index', compact('title','subtitle','attendanceCategories'));
+        return view('attendance_category.index', compact('attendanceCategories'));
     }
 
     public function add()
     {
-        $title = 'Attendance Categories';
-        $subtitle = 'Add Attendance Categories';
-        return view('attendance_category.add', compact('title','subtitle'));
+        return view('attendance_category.add');
     }
 
     public function addProcess(Request $request)
@@ -37,10 +39,8 @@ class AttendanceCategoryController extends Controller
 
     public function edit($id)
     {
-        $title = 'Attendance Categories';
-        $subtitle = 'Edit Attendance Categories';
         $attendanceCategories = DB::table('attendance_categories')->where('id', $id)->first();
-        return view('attendance_category.edit', compact('title','subtitle','attendanceCategories'));
+        return view('attendance_category.edit', compact('attendanceCategories'));
     }
 
     public function editProcess(Request $request, $id)
@@ -64,3 +64,4 @@ class AttendanceCategoryController extends Controller
         return redirect('attendance_categories')->with('status', 'Category deleted successfully');
     }
 }
+
