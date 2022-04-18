@@ -1,111 +1,88 @@
-@extends('main')
+@extends('layouts.master')
 
-@section('title', 'PPO-ARKA')
-
-@section('breadcrumbs')
-<div class="breadcrumbs">
-    <div class="col-sm-4">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <h1>Production Parameter</h1>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-8">
-        <div class="page-header float-right">
-            <div class="page-title">
-                <ol class="breadcrumb text-right">
-                    
-                    <li class="active"><i class="fa fa-dashboard"></i></li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
+@section('title')
+    Daftar Production Parameter
 @endsection
+
+@section('breadcrumb')
+    @parent
+    <li class="active">Production Parameter</li>
+@endsection
+
 
 @section('content')
+
 <div class="content mt-3">
-    <div class="animated fadeIn">
-
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-
-        <div class="card">
-            <div class="card-header">
-                <div class="pull-left">
-                    <strong>Data Production Parameter</strong>
-                </div>
-                <div class="pull-right">
-                    <a href="{{ url('prod_parameters/create') }}" class="btn btn-success btnsm">
-                        <i class="fa fa-plus"></i>Add
-                    </a>
-                </div>
-            </div>
-            <div class="card-body table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>  
-                            <th>Project</th>
-                            <th>Date</th>
-                            <th>Plan Fuel Factor</th>
-                            <th>Cum Prod OB</th>
-                            <th>Cum Prod Coal</th>
-                            <th>Cum Fuel</th>
-                            <th>Join Survey</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($prod_parameters as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->project->name_project }}</td> 
-                                <td>{{ $item->date }}</td>
-                                <td>{{ $item->plan_fuel_factor }}</td>
-                                <td>{{ $item->cum_prod_ob }}</td>
-                                <td>{{ $item->cum_prod_coal }}</td>
-                                <td>{{ $item->cum_fuel }}</td>
-                                <td>{{ $item->join_survey }}</td>
-                                 
-                                <td class="text-center">
-                                    <a href="{{ url('prod_parameters/'.$item->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a href="{{ url('prod_parameters/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <form action="{{ url('prod_parameters/'.$item->id) }}" method="post" onsubmit="return confirm('Are you sure want to delete this data?')"
-                                        class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-
-                                    </form>
-                                    
-                                </td>
-                            </tr>               
-                         @endforeach
-                        
-                    </tbody>
-        
-                </table>
-               
-                
-            </div>
+    <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Production Parameter Table</h3>
+          <div class="pull-right">
+            <a href="{{ url('prod_parameters/create') }}" class="btn btn-success btn-sm">
+              <i class="fa fa-plus"></i> Add
+            </a>
+          </div>
         </div>
-        
-        
-    </div>
-</div>
+        @if (session('status'))
+        <div class="alert alert-success">
+          {{ session('status') }}
+        </div>
+      @endif
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row">
+              <div class="col-sm-6"></div><div class="col-sm-6"></div>
+          </div>
+          <div class="row"><div class="col-sm-12">
+              <table id="table1" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+            <thead>
+            <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">No</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Project</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Month/Years</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Plan Fuel Factor</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Cum Prod OB</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Cum Prod Coal</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Cum Fuel</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Join Survey</th>      
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Action</th>
+            </thead>
+            <tbody>
+                @foreach ($prod_parameters as $item)     
+            <tr role="row" class="odd">
+              <td class="sorting_1">{{ $loop->iteration }}</td>
+              <td>{{ $item->project->code_project }}</td>
+              <td>{{ $item->parameter_date }}</td>
+              <td>{{ $item->plan_fuel_factor }}</td>
+              <td>{{ $item->cum_prod_ob }}</td>
+              <td>{{ $item->cum_prod_coal }}</td>
+              <td>{{ $item->cum_fuel }}</td>
+              <td>{{ $item->join_survey }}</td>
+             
+              <td class="text-center">
+                
+                <form action="{{ url('prod_parameters/'.$item->id) }}" method="post"
+                  onsubmit="return confirm('Are you sure want to delete this data?')" class="d-inline">
+                  @method('delete')
+                  @csrf
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <a href="{{ url('prod_parameters/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                </form>
+            
+            
+             </td>
+              
+            </tr>
+            @endforeach
+           </tbody>
+            
+          </table>
+        </div></div><div class="row"><div class="col-sm-5">
+            
+        </div>
+        <!-- /.box-body -->
+      </div>
 @endsection
-
-
-
-
