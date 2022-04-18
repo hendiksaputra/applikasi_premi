@@ -6,8 +6,6 @@ use App\Models\Employee;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\DB;
-
 class EmployeeController extends Controller
 {
     /**
@@ -17,10 +15,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $title = 'Employees';
-        $subtitle = 'Employees Data';
+       
         $employees = Employee::with('project')->orderBy('nik', 'asc')->get();
-        return view('employee/index', compact('title','subtitle','employees'));
+        return view('employee/index', compact('employees'));
     }
 
     /**
@@ -30,11 +27,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $title = 'Employees';
-        $subtitle = 'Add Employees';
-        $projects = Project::orderBy('code')->get(); 
+        $projects = Project::orderBy('code_project')->get(); 
 
-        return view('employee.create', compact('title','subtitle','projects'));
+        return view('employee.create', compact('projects'));
     }
 
     /**
@@ -45,36 +40,31 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'nik' => 'required',
-            'name' => 'required',
+            'name_employee' => 'required',
             'project_id' => 'required',
         ]);
 
         //input data cara pertama
-        // $employee = new Employee;
-        // $employee->nik = $request->nik;
-        // $employee->project_id = $request->project_id;
-        // $employee->name = $request->name;
-        // $employee->save();
+        $employee = new Employee;
+        $employee->nik = $request->nik;
+        $employee->project_id = $request->project_id;
+        $employee->name_employee = $request->name_employee;
+        $employee->save();
 
         // return redirect('employees')->with('status', 'Employee added successfully');
         
 
         //input data cara kedua mass assignment
-         Employee::create([
-             'nik' => $request->nik,
-             'project_id' => $request->project_id,
-             'name' => $request->name,
+        //  Employee::create([
+        //      'nik' => $request->nik,        
+        //      'name_employee' => $request->name_employee,
+        //      'project_id' => $request->project_id,
 
-         ]);
+        //  ]);
          return redirect('employees')->with('status', 'Employee added successfully');
 
-
-        //input cara ketiga mass assignment syarat : field tabel dan nama inputan harus sama
-        // Employee::create($request->all());
-        // return redirect('employees')->with('status', 'Employee added successfully');
     }
 
     /**
@@ -85,9 +75,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $title = 'Employees';
-        $subtitle = 'Employees Detail';
-        return view('employee.show', compact('title','subtitle','employee'));
+        //
     }
 
     /**
@@ -98,10 +86,10 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $title = 'Employees';
-        $subtitle = 'Edit Employees';
+        
         $projects = Project::all(); 
-        return view('employee.edit', compact('title','subtitle','employee', 'projects'));
+        return view('employee.edit', compact('employee', 'projects'));
+    
     }
 
     /**
@@ -115,7 +103,7 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'nik' => 'required',
-            'name' => 'required',
+            'name_employee' => 'required',
             'project_id' => 'required',
         ]);
         // cara pertama
@@ -127,10 +115,11 @@ class EmployeeController extends Controller
         //cara ke dua : mass assignment
         Employee::where('id', $employee->id)->update([
             'nik' => $request->nik,
-            'name' => $request->name,
+            'name_employee' => $request->name_employee,
             'project_id' => $request->project_id,
         ]);
         return redirect('employees')->with('status', 'Employee updated successfully');
+   
     }
 
     /**
@@ -141,70 +130,9 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //cara pertama
-        //$employee->delete();
-
-        //cara kedua
         Employee::destroy($employee->id);
 
         return redirect('employees')->with('status', 'Employee deleted successfully');
 
-    }
-
-    public function trash()
-    {
-        $title = 'Employees';
-        $subtitle = 'Employees Data - Deleted';
-        $employees = Employee::onlyTrashed()->orderBy('nik','asc')->get();
-        return view('employee.trash', compact('title','subtitle','employees'));
-
-    }
-
-    public function restore ($id = null)
-    {
-        if($id != null){
-            $employees = Employee::onlyTrashed()
-            ->where('id', $id)
-            ->restore();
-        } else {
-            $employees = Employee::onlyTrashed()
-            ->restore();
-        }
-
-        return redirect('employees/trash')->with('status', 'Employee restored successfully');
-    }
-
-    public function delete($id = null)
-    {
-        if($id != null){
-            $employees = Employee::onlyTrashed()
-            ->where('id', $id)
-            ->forceDelete();
-        } else {
-            $employees = Employee::onlyTrashed()
-            ->forceDelete();
-        }
-
-        return redirect('employees/trash')->with('status', 'Employee deleted permanent successfully');
-    }
-
-    public function index_data()
-    {
-        $employees = Employee::orderBy('nik','asc')->get();
-
-        return datatables()->of($employees)
-            ->addIndexColumn()
-            ->addColumn('nik', function($employees){
-                return $employees->nik;
-            })
-            ->addColumn('name', function($employees){
-                return $employees->name;
-            })
-            ->addColumn('project', function($employees){
-                return $employees->project->code .' - '.$employees->project->name;
-            })
-            ->addColumn('action', 'employee.action')
-            ->rawColumns(['action'])
-            ->toJson();
     }
 }
