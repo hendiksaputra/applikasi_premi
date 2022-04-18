@@ -1,113 +1,75 @@
-@extends('main')
+@extends('layouts.master')
 
-@section('title', 'PPO-ARKA')
-
-@section('breadcrumbs')
-  <div class="breadcrumbs">
-    <div class="col-sm-4">
-      <div class="page-header float-left">
-        <div class="page-title">
-          <h1>{{ $title }}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="page-header float-right">
-        <div class="page-title">
-          <ol class="breadcrumb text-right">
-            <li class="active"><i class="fa fa-th-large"></i></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+@section('title')
+    Daftar Unit Model
 @endsection
 
+@section('breadcrumb')
+    @parent
+    <li class="active">Unit Model</li>
+@endsection
+
+
 @section('content')
-  <div class="content mt-3">
-    <div class="animated fadeIn">
 
-      @if (session('status'))
-        <div class="alert alert-success">
-          {{ session('status') }}
-        </div>
-      @endif
-
-      <div class="card">
-        <div class="card-header">
-          <div class="pull-left">
-            <strong>{{ $subtitle }}</strong>
-          </div>
+<div class="content mt-3">
+    <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Unit Model Data Table</h3>
           <div class="pull-right">
             <a href="{{ url('unit_models/create') }}" class="btn btn-success btn-sm">
               <i class="fa fa-plus"></i> Add
             </a>
-            <a href="{{ url('unit_models/import') }}" class="btn btn-primary btn-sm">
-              <i class="fa fa-upload"></i> Import
-            </a>
-            <a href="{{ route('export') }}" class="btn btn-warning btn-sm"><i class="fa fa-download"></i> Export</a>
           </div>
         </div>
-        <div class="card-body table-responsive">
-          <table id="unitmodel-table" class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Model Name</th>
-                <th class="text-center">Action</th>
-              </tr>
-            </thead>
-            {{-- <tbody>
-              @foreach ($unitModels as $item)
-                <tr>
-                  <td>{{ $loop->iteration }}</td>
-                  <td>{{ $item->model_no }}</td>
-                  <td class="text-center">
-                    <a href="{{ url('unit_models/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
-                      <i class="fa fa-pencil"></i>
-                    </a>
-                    <form action="{{ url('unit_models/' . $item->id) }}" method="post"
-                      onsubmit="return confirm('Are you sure want to delete this data?')" class="d-inline">
-                      @method('delete')
-                      @csrf
-                      <button class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody> --}}
-          </table>
+        @if (session('status'))
+        <div class="alert alert-success">
+          {{ session('status') }}
         </div>
+      @endif
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row">
+              <div class="col-sm-6"></div><div class="col-sm-6"></div>
+          </div>
+          <div class="row"><div class="col-sm-12">
+              <table id="table1" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+            <thead>
+            <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">No</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Model Name</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Action</th>
+            </thead>
+            <tbody>
+                @foreach ($unitModels as $item)       
+            <tr role="row" class="odd">
+              <td class="sorting_1">{{ $loop->iteration }}</td>
+              <td>{{ $item->model_no }}</td>
+              <td class="text-center">
+                
+                <form action="{{ url('unit_models/' . $item->id) }}" method="post"
+                  onsubmit="return confirm('Are you sure want to delete this data?')" class="d-inline">
+                  @method('delete')
+                  @csrf
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <a href="{{ url('unit_models/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                </form>
+            
+            
+             </td>
+              
+            </tr>
+            @endforeach
+           </tbody>
+            
+          </table>
+        </div></div><div class="row"><div class="col-sm-5">
+            
+        </div>
+        <!-- /.box-body -->
       </div>
-    </div>
-  </div>
-
-  <script src="{{ asset('style/assets/js/lib/data-table/datatables.min.js') }}"></script>
-  <script>
-    $(function() {
-      $("#unitmodel-table").DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{{ route('unit_models.index.data') }}',
-        columns: [{
-            data: 'DT_RowIndex',
-            orderable: false,
-            searchable: false
-          },
-          {
-            data: 'model_no'
-          },
-          {
-            data: 'action',
-            orderable: false,
-            searchable: false,
-            className: 'text-center'
-          },
-        ],
-        fixedHeader: true,
-      })
-    });
-  </script>
 @endsection
