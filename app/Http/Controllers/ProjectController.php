@@ -2,62 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\ProjectImport;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $title = 'Project';
-        $subtitle = 'Project Data';
-        $projects = DB::table('projects')->orderBy('code', 'asc')->get();
+        $projects = DB::table('projects')->orderBy('code_project', 'asc')->get();
         //return view('project.index', ['projects' => $projects]);
-        return view('project.index', compact('title','subtitle','projects'));
+        return view('project.index', compact('projects'));
     }
 
     public function add()
     {
-        $title = 'Project';
-        $subtitle = 'Add Project';
-        return view('project.add', compact('title','subtitle'));
+        return view('project.add');
     }
 
     public function addProcess(Request $request)
     {
         $request->validate([
-            'code' => 'required|min:1',
-            'name' => 'required',
+            'code_project' => 'required|min:1',
+            'name_project' => 'required',
         ]);
 
         DB::table('projects')->insert([
-            'code' => $request->code,
-            'name' => $request->name
+            'code_project' => $request->code_project,
+            'name_project' => $request->name_project
         ]);
         return redirect('projects')->with('status', 'Project added successfully');
     }
 
     public function edit($id)
     {
-        $title = 'Project';
-        $subtitle = 'Edit Project';
-        $project = DB::table('projects')->where('id', $id)->first();
-        return view('project/edit', compact('title','subtitle','project'));
+        $projects = DB::table('projects')->where('id', $id)->first();
+        return view('project.edit', compact('projects'));
     }
 
     public function editProcess(Request $request, $id)
     {
         $request->validate([
-            'code' => 'required|min:1',
-            'name' => 'required',
+            'code_project' => 'required|min:1',
+            'name_project' => 'required',
         ]);
 
         DB::table('projects')->where('id', $id)
         ->update([
-            'code' => $request->code,
-            'name' => $request->name
+            'code_project' => $request->code_project,
+            'name_project' => $request->name_project
         ]);
         return redirect('projects')->with('status', 'Project updated successfully');
     }
@@ -84,5 +82,4 @@ class ProjectController extends Controller
         return redirect('projects')->with('status', 'Project uploaded successfully');
     }
 
-    
 }
