@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UnitModel;
-use App\Imports\UnitModelsImport;
-use App\Exports\UnitModelsExport;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-
 
 class UnitModelController extends Controller
 {
@@ -19,12 +15,7 @@ class UnitModelController extends Controller
     public function index()
     {
         $unitModels = UnitModel::all();
-        return view('unit_model.index', 
-        [
-            'title' => 'Unit Models', 
-            'subtitle' => 'Unit Models Data', 
-            'unitModels' => $unitModels
-        ]);
+        return view('unit_model.index', [  'unitModels' => $unitModels]);
     }
 
     /**
@@ -34,11 +25,7 @@ class UnitModelController extends Controller
      */
     public function create()
     {
-        return view('unit_model.add',
-        [
-            'title' => 'Unit Models',
-            'subtitle' => 'Add Unit Model'
-        ]);
+        return view('unit_model.add');
     }
 
     /**
@@ -56,6 +43,7 @@ class UnitModelController extends Controller
         UnitModel::create($request->all());
 
         return redirect('unit_models')->with('status', 'Unit models added successfully');
+    
     }
 
     /**
@@ -77,13 +65,7 @@ class UnitModelController extends Controller
      */
     public function edit(UnitModel $unitModel)
     {
-        // $unitModels = UnitModel::all();
-        return view('unit_model.edit', 
-        [
-            'title' => 'Unit Models', 
-            'subtitle' => 'Edit Models Data', 
-            'unitModel' => $unitModel
-        ]);
+        return view('unit_model.edit', ['unitModel' => $unitModel]);
     }
 
     /**
@@ -95,7 +77,6 @@ class UnitModelController extends Controller
      */
     public function update(Request $request, UnitModel $unitModel)
     {
-
         if ($request->model_no != $unitModel->model_no) {
             $rules['model_no'] = 'required|unique:unit_models';
         }
@@ -105,6 +86,7 @@ class UnitModelController extends Controller
         UnitModel::where('id', $unitModel->id)->update($validatedData);
 
         return redirect('unit_models')->with('status', 'Unit models updated successfully');
+    
     }
 
     /**
@@ -118,40 +100,6 @@ class UnitModelController extends Controller
         $unitModel->delete();
 
         return redirect('unit_models')->with('status', 'Unit models deleted successfully');
-    }
-
-    public function import()
-    {
-        return view('unit_model.import',
-        [
-            'title' => 'Unit Models',
-            'subtitle' => 'Import Unit Model'
-        ]);
-    }
-
-    public function importProcess()
-    {
-        Excel::import(new UnitModelsImport, request()->file('file'));
-
-        return redirect('unit_models')->with('status', 'Unit Model uploaded successfully');
-    }
-
-    public function export()
-    {
-        return Excel::download(new UnitModelsExport, 'UnitModels.xlsx');
-    }
-
-    public function index_data()
-    {
-        $unitModels = UnitModel::all();
-
-        return datatables()->of($unitModels)
-            ->addIndexColumn()
-            ->addColumn('model_no', function($unitModels){
-                return $unitModels->model_no;
-            })
-            ->addColumn('action', 'unit_model.action')
-            ->rawColumns(['action'])
-            ->toJson();
+    
     }
 }
